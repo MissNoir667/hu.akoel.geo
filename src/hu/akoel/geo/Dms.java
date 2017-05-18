@@ -97,11 +97,11 @@ public class Dms {
      * @returns {string} Degrees formatted as deg/min/secs according to specified format.
      */
     
-    public static String toDMS( double deg ){
+    private static String toDMS( double deg ){
     	return toDMS( deg, Form.dms, -1 );
     }
     
-    public static String toDMS( double deg, Dms.Form format, int dp) {
+    private static String toDMS( double deg, Dms.Form format, int dp) {
 
         // default values
 
@@ -169,7 +169,11 @@ public class Dms {
         }
 
         return dms;
-
+    }
+    
+    private static String toDeg( double deg, int dp ){
+    	deg = Math.abs(deg);
+    	return getDecimalFormated( deg, dp);
     }
     
     /**
@@ -185,6 +189,11 @@ public class Dms {
         return lat + (deg<0 ? 'S' : 'N');  // knock off initial '0' for lat!
     }
     
+    public static String toLat( double deg, int dp ){
+    	String lat = Dms.toDeg(deg, dp);
+    	return lat + (deg<0 ? 'S' : 'N'); 
+    }
+    
     /**
      * Convert numeric degrees to deg/min/sec longitude (3-digit degrees, suffixed with E/W)
      *
@@ -196,6 +205,15 @@ public class Dms {
     public static String toLon( double deg, Dms.Form format, int dp) {
         String lon = Dms.toDMS(deg, format, dp);
         return lon + (deg<0 ? 'W' : 'E');
+    }
+    
+    public static String toLon( double deg, int dp ){
+    	String lon = Dms.toDeg(deg, dp);
+    	return lon + (deg<0 ? 'W' : 'E'); 
+    }
+    
+    public static String toAlt( double alt, int dp ){
+    	return Dms.getDecimalFormated(alt, dp) + "m";
     }
     
     /**
